@@ -15,28 +15,28 @@ void Lexer::goBack() {
 }
 
 /*
-	¹¹ÔìDFA
+	æ„é€ DFA
 */
 
 
 std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 	enum parseState {
-		Start,			//¿ªÊ¼
-		End,			//·ÖÎöÍê³ÉÒ»·İ
-		Error,			//·ÖÎö³öÒ»¸ö´íÎó
+		Start,			//å¼€å§‹
+		End,			//åˆ†æå®Œæˆä¸€ä»½
+		Error,			//åˆ†æå‡ºä¸€ä¸ªé”™è¯¯
 
-		ID_A_ST,		//idÊ¶±ğ(¿ªÍ·)
-		ID_A,			//idÊ¶±ğ
-		ID_B,			//Çø·ÖidÓë±£Áô×Ö
+		ID_A_ST,		//idè¯†åˆ«(å¼€å¤´)
+		ID_A,			//idè¯†åˆ«
+		ID_B,			//åŒºåˆ†idä¸ä¿ç•™å­—
 
-		Number_IoF,		//ÆÕÍ¨ÕûĞÍ»ò¸¡µã
-		Number_HIoOIoF,	//Hex|OctÕûĞÍ»ò¸¡µã	ÒÔ¼°ÌØÊâÇé¿ö: ÕûÊı0
-		Number_F_E,		//¸¡µã,´¦ÀíÎ²Êı²¢µÈ´ı¿ÉÄÜ³öÏÖµÄE
-		Number_F_T,		//¸¡µã,´¦Àí´¿Î²Êı(µÈ´ı¿ÉÄÜ´æÔÚµÄ+-ºÅÓëÖÁÉÙÒ»¸öÊı)
-		Number_F_TT,	//¸¡µã,´¦Àí´¿Î²Êı(µÈ´ıÖÁÉÙÒ»¸öÊı)
-		Number_F_TD,	//¸¡µã,´¦Àí´¿Î²Êı(¿É½áÊø)
-		Number_HI,		//HexÕûĞÍ
-		Number_OI,		//OctÕûĞÍ
+		Number_IoF,		//æ™®é€šæ•´å‹æˆ–æµ®ç‚¹
+		Number_HIoOIoF,	//Hex|Octæ•´å‹æˆ–æµ®ç‚¹	ä»¥åŠç‰¹æ®Šæƒ…å†µ: æ•´æ•°0
+		Number_F_E,		//æµ®ç‚¹,å¤„ç†å°¾æ•°å¹¶ç­‰å¾…å¯èƒ½å‡ºç°çš„E
+		Number_F_T,		//æµ®ç‚¹,å¤„ç†çº¯å°¾æ•°(ç­‰å¾…å¯èƒ½å­˜åœ¨çš„+-å·ä¸è‡³å°‘ä¸€ä¸ªæ•°)
+		Number_F_TT,	//æµ®ç‚¹,å¤„ç†çº¯å°¾æ•°(ç­‰å¾…è‡³å°‘ä¸€ä¸ªæ•°)
+		Number_F_TD,	//æµ®ç‚¹,å¤„ç†çº¯å°¾æ•°(å¯ç»“æŸ)
+		Number_HI,		//Hexæ•´å‹
+		Number_OI,		//Octæ•´å‹
 
 	};
 
@@ -52,7 +52,7 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				if (isAlphabet(ch) || ch == '_') state = ID_A, buffer.push_back(ch);
 				else if (isNumber(ch) && ch != '0') state = Number_IoF, buffer.push_back(ch);
 				else if (isNumber(ch) && ch == '0') state = Number_HIoOIoF, buffer.push_back(ch);
-				// else if (ch == '.') state = Number_F_E, buffer.push_back(ch);	//ÀàC/C++ÓïÑÔÔÊĞí.15 -> 0.15µÄÒşÊ½¶¨ÒåÒÔ¼°15. -> 15.0µÄÒşÊ½¶¨Òå
+				// else if (ch == '.') state = Number_F_E, buffer.push_back(ch);	//ç±»C/C++è¯­è¨€å…è®¸15. -> 15.0çš„éšå¼å®šä¹‰
 				else if (ch == EOF) parsing = false;
 				//TODO
 
@@ -69,7 +69,7 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 			case ID_B:
 				if (SimpleCC::Keywords[buffer] != SimpleCC::Token::INVALID) result.push_back({ SimpleCC::Keywords[buffer], buffer });
 				else result.push_back({ SimpleCC::Token::IDENTIFIER, buffer });
-				goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				state = End;
 				break;
 
@@ -78,33 +78,33 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				if (isNumber(ch)) state = Number_IoF, buffer.push_back(ch);
 				else if (ch == '.') state = Number_F_E, buffer.push_back(ch);
 				else if (ch == 'e' or ch == 'E') state = Number_F_T, buffer.push_back(ch);
-				else state = End, result.push_back({ SimpleCC::Token::INTERGER, buffer }), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				else state = End, result.push_back({ SimpleCC::Token::INTERGER, buffer }), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				break;
 
 			case Number_F_E:
 				ch = getNext();
 				if (isNumber(ch)) state = Number_F_E, buffer.push_back(ch);
 				else if (ch == 'e' or ch == 'E') state = Number_F_T, buffer.push_back(ch);
-				else state = End, result.push_back({ SimpleCC::Token::FLOATING, buffer }), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				else state = End, result.push_back({ SimpleCC::Token::FLOATING, buffer }), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				break;
 
 			case Number_F_T:
 				ch = getNext();
 				if (isNumber(ch)) state = Number_F_TD, buffer.push_back(ch);
 				else if(ch == '+' || ch == '-') state = Number_F_TT, buffer.push_back(ch);
-				else state = Error, buffer.push_back(ch), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô EºóÃ»Êı×ÖÊÇ´íÎóµÄÇé¿ö, ½øError(Ë³±ã°Ñµ¼ÖÂ´íÎóµÄ×Ö·ûÑ¹½øÈ¥)
+				else state = Error, buffer.push_back(ch), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰ Eåæ²¡æ•°å­—æ˜¯é”™è¯¯çš„æƒ…å†µ, è¿›Error(é¡ºä¾¿æŠŠå¯¼è‡´é”™è¯¯çš„å­—ç¬¦å‹è¿›å»)
 				break;
 			
 			case Number_F_TT:
 				ch = getNext();
 				if (isNumber(ch)) state = Number_F_TD, buffer.push_back(ch);
-				else state = Error, buffer.push_back(ch), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô E+/E-ºóÃ»Êı×ÖÊÇ´íÎóµÄÇé¿ö, ½øError(Ë³±ã°Ñµ¼ÖÂ´íÎóµÄ×Ö·ûÑ¹½øÈ¥)
+				else state = Error, buffer.push_back(ch), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰ E+/E-åæ²¡æ•°å­—æ˜¯é”™è¯¯çš„æƒ…å†µ, è¿›Error(é¡ºä¾¿æŠŠå¯¼è‡´é”™è¯¯çš„å­—ç¬¦å‹è¿›å»)
 				break;
 
 			case Number_F_TD:
 				ch = getNext();
 				if (isNumber(ch)) state = Number_F_TD, buffer.push_back(ch);
-				else state = End, result.push_back({ SimpleCC::Token::FLOATING, buffer }), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				else state = End, result.push_back({ SimpleCC::Token::FLOATING, buffer }), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				break;
 
 			case Number_HIoOIoF:
@@ -113,20 +113,20 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				else if (ch == '.') state = Number_F_E, buffer.push_back(ch);
 				else if (ch == 'e' or ch == 'E') state = Number_F_T, buffer.push_back(ch);
 				else if (isNumber(ch) && ch < '8' && ch != '0') state = Number_OI, buffer.push_back(ch);
-				else if (!isNumber(ch)) state = End, result.push_back({ SimpleCC::Token::INTERGER, buffer }), goBack();	//ÕûÊı0µÄÇé¿ö ½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
-				else state = Error, buffer.push_back(ch), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô ÕâÀï³öÏÖ8»òÕß9ÊÇ´íÎóÇé¿ö, ½øError(Ë³±ã°Ñµ¼ÖÂ´íÎóµÄ×Ö·ûÑ¹½øÈ¥)
+				else if (!isNumber(ch)) state = End, result.push_back({ SimpleCC::Token::INTERGER, buffer }), goBack();	//æ•´æ•°0çš„æƒ…å†µ è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
+				else state = Error, buffer.push_back(ch), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰ è¿™é‡Œå‡ºç°8æˆ–è€…9æ˜¯é”™è¯¯æƒ…å†µ, è¿›Error(é¡ºä¾¿æŠŠå¯¼è‡´é”™è¯¯çš„å­—ç¬¦å‹è¿›å»)
 				break;
 
 			case Number_HI:
 				ch = getNext();
 				if (isNumber(ch) || ch >= 'A' && ch <= 'F' || ch >= 'a' && ch <= 'f') state = Number_HI, buffer.push_back(ch);
-				else state = End, result.push_back({ SimpleCC::Token::HEXINTERGER, buffer }), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				else state = End, result.push_back({ SimpleCC::Token::HEXINTERGER, buffer }), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				break;
 
 			case Number_OI:
 				ch = getNext();
 				if (isNumber(ch) && ch < '8') state = Number_OI, buffer.push_back(ch);
-				else state = End, result.push_back({ SimpleCC::Token::OCTINTERGER, buffer }), goBack();	//½øÈëÕâ¸ö·ÖÖ§»á¶àÍÌÒ»¸ö×Ö·û ÍÂµô
+				else state = End, result.push_back({ SimpleCC::Token::OCTINTERGER, buffer }), goBack();	//è¿›å…¥è¿™ä¸ªåˆ†æ”¯ä¼šå¤šåä¸€ä¸ªå­—ç¬¦ åæ‰
 				break;
 
 

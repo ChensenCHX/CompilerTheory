@@ -8,22 +8,22 @@
 namespace SimpleCC {
 	class Lexer;
 	enum class Token {
-		INVALID,		//	·Ç·¨Ì¬
-		IDENTIFIER,		//	±êÊ¶·û
-		INTERGER,		//	ÕûÐÍ×ÖÃæÁ¿
-		HEXINTERGER,	//	Ê®Áù½øÖÆÕûÐÍ
-		OCTINTERGER,	//	°Ë½øÖÆÕûÐÍ
-		FLOATING,		//	¸¡µã×ÖÃæÁ¿
-		OP_ADD,			//	+ÔËËã·û
-		OP_SUB,			//	-ÔËËã·û
-		OP_MUL,			//	*ÔËËã·û
-		OP_DIV,			//	/ÔËËã·û
-		OP_GT,			//	>ÔËËã·û
-		OP_LS,			//	<ÔËËã·û
-		OP_EQ,			//	==ÔËËã·û
-		OP_GE,			//	>=ÔËËã·û
-		OP_LE,			//	<=ÔËËã·û
-		OP_ASSIGN,		//	=ÔËËã·û(¸³Öµ)
+		INVALID,		//	éžæ³•æ€
+		IDENTIFIER,		//	æ ‡è¯†ç¬¦
+		INTERGER,		//	æ•´åž‹å­—é¢é‡
+		HEXINTERGER,	//	åå…­è¿›åˆ¶æ•´åž‹
+		OCTINTERGER,	//	å…«è¿›åˆ¶æ•´åž‹
+		FLOATING,		//	æµ®ç‚¹å­—é¢é‡
+		OP_ADD,			//	+è¿ç®—ç¬¦
+		OP_SUB,			//	-è¿ç®—ç¬¦
+		OP_MUL,			//	*è¿ç®—ç¬¦
+		OP_DIV,			//	/è¿ç®—ç¬¦
+		OP_GT,			//	>è¿ç®—ç¬¦
+		OP_LS,			//	<è¿ç®—ç¬¦
+		OP_EQ,			//	==è¿ç®—ç¬¦
+		OP_GE,			//	>=è¿ç®—ç¬¦
+		OP_LE,			//	<=è¿ç®—ç¬¦
+		OP_ASSIGN,		//	=è¿ç®—ç¬¦(èµ‹å€¼)
 		KEYWORD_IF,		//	if
 		KEYWORD_THEN,	//	then
 		KEYWORD_ELSE,	//	else
