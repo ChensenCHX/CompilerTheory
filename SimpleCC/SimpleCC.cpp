@@ -9,7 +9,15 @@ using namespace std;
 
 int main()
 {
-    string str{"34.e3 .. . .5 5. 5.? .? 0.05 00000 01 08 06 34. 3. 0. 3.e5 3.3e5"};
+    string str = R"("
+
+else if (ch == '+') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_ADD, buffer });
+else if (ch == '-') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_SUB, buffer });
+int i = 10;
+i = i + 5;
+double j = 1.3e+5, k = 1.e5, p = 3., q=0x00, a=07, b=0008;
+
+")";
     SimpleCC::Lexer lex(str);
     auto vec = lex.parseAll();
     

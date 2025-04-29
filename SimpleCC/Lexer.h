@@ -24,12 +24,18 @@ namespace SimpleCC {
 		OP_GE,			//	>=运算符
 		OP_LE,			//	<=运算符
 		OP_ASSIGN,		//	=运算符(赋值)
+		OP_LSBRACK,		//	(左小括号
+		OP_RSBRACK,		//	)右小括号
+		OP_SEPRATOR,	//	;分号分隔符
 		KEYWORD_IF,		//	if
 		KEYWORD_THEN,	//	then
 		KEYWORD_ELSE,	//	else
 		KEYWORD_WHILE,	//	while
 		KEYWORD_DO,		//	do
-
+		KEYWORD_END,	//	end
+		KEYWORD_AND,	//	and
+		KEYWORD_OR,		//	or
+		KEYWORD_NOT,	//	not
 
 	};
 
@@ -38,7 +44,11 @@ namespace SimpleCC {
 		{ "then",	Token::KEYWORD_THEN },
 		{ "else",	Token::KEYWORD_ELSE },
 		{ "while",	Token::KEYWORD_WHILE },
-		{ "do",		Token::KEYWORD_DO }
+		{ "do",		Token::KEYWORD_DO },
+		{ "end",	Token::KEYWORD_END },
+		{ "and",	Token::KEYWORD_AND },
+		{ "or",		Token::KEYWORD_OR },
+		{ "not",	Token::KEYWORD_NOT },
 	};
 }
 
