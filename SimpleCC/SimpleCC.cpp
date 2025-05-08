@@ -2,6 +2,8 @@
 //
 
 #include <iostream>
+#include <queue>
+#include <deque>
 #include "Lexer.h"
 #include "magic_enum.hpp"   //引入此header only库来实现简便的枚举名输出
 using namespace std;

@@ -71,6 +71,7 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				else if (ch == '(') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_LSBRACK, buffer });
 				else if (ch == ')') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_RSBRACK, buffer });
 				else if (ch == ';') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_SEPRATOR, buffer });
+				else if (ch == ',') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_SPLIT, buffer });
 				else if (ch == '=') state = Operator_Assign, buffer.push_back(ch);
 				else if (ch == '>') state = Operator_Greater, buffer.push_back(ch);
 				else if (ch == '<') state = Operator_Less, buffer.push_back(ch);
