@@ -5,28 +5,36 @@
 #include <queue>
 #include <deque>
 #include "Lexer.h"
+#include "Analyzer.h"
 #include "magic_enum.hpp"   //引入此header only库来实现简便的枚举名输出
 using namespace std;
 
 
 int main()
 {
-    string str = R"("
-
-else if (ch == '+') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_ADD, buffer });
-else if (ch == '-') state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_SUB, buffer });
-int i = 10;
-i = i + 5;
-double j = 1.3e+5, k = 1.e5, p = 3., q=0x00, a=07, b=0008;
-
-")";
+    string str = R"(
+3 < 4 and 1+1 > 2
+)";
     SimpleCC::Lexer lex(str);
     auto vec = lex.parseAll();
+	
+	for (auto i : vec) {
+		auto& [id, s] = i;
+		cout << magic_enum::enum_name(id) << ' ' << s << endl;
+	}
+	
+	SimpleCC::Analyzer analyse(vec);
+	if (analyse.analyseAll()) {
+		cout << "success!" << endl;
+		for (auto str : analyse.getInfo()) {
+			cout << str << endl;
+		}
+	}
+	else {
+		cout << "failed!" << endl;
+	}
     
-    for (auto i : vec) {
-        auto [id, s] = i;
-        cout << magic_enum::enum_name(id) << ' ' << s << endl;
-    }
+
 
 }
 

@@ -9,6 +9,7 @@ namespace SimpleCC {
 
 	enum class Token {
 		INVALID,			//	非法态
+		ENDED,				//	已结束(用于特殊处理)
 		IDENTIFIER,			//	标识符
 		INTERGER,			//	整型字面量
 		HEXINTERGER,		//	十六进制整型
@@ -23,6 +24,7 @@ namespace SimpleCC {
 		OP_EQ,				//	==运算符
 		OP_GE,				//	>=运算符
 		OP_LE,				//	<=运算符
+		OP_NE,				//	!=运算符
 		OP_ASSIGN,			//	=运算符(赋值)
 		OP_LSBRACK,			//	(左小括号
 		OP_RSBRACK,			//	)右小括号

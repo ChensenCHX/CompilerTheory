@@ -21,7 +21,7 @@ void Lexer::goBack() {
 */
 
 
-std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
+std::vector<TokenInfo> Lexer::parseAll() {
 	enum parseState {
 		Start,				//开始
 		End,				//分析完成一份
@@ -46,6 +46,7 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 		Operator_GreaterEq,	//运算符>=
 		Operator_Less,		//运算符<
 		Operator_LessEq,	//运算符<=
+		Operator_NotEq,		//运算符!=
 
 	};
 
@@ -75,6 +76,7 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				else if (ch == '=') state = Operator_Assign, buffer.push_back(ch);
 				else if (ch == '>') state = Operator_Greater, buffer.push_back(ch);
 				else if (ch == '<') state = Operator_Less, buffer.push_back(ch);
+				else if (ch == '!')	state = Operator_NotEq, buffer.push_back(ch);
 				//	结束
 				else if (ch == EOF) parsing = false;
 				break;
@@ -189,7 +191,11 @@ std::vector<std::pair<SimpleCC::Token, std::string>> Lexer::parseAll() {
 				state = End, result.push_back({ SimpleCC::Token::OP_LE, buffer });
 				break;
 
-
+			case Operator_NotEq:
+				ch = getNext();
+				if (ch == '=')	state = End, buffer.push_back(ch), result.push_back({ SimpleCC::Token::OP_NE, buffer });
+				else state = Error, buffer.push_back(ch), goBack();	//进入这个分支会多吞一个字符 吐掉 !后一定是=, 这里是错误情况, 进Error(顺便把导致错误的字符压进去)
+				break;
 
 
 
